@@ -29,11 +29,25 @@ function loadVideos() {
                 const titleElement = document.createElement('p');
                 titleElement.innerText = video.title;
 
+               
+                const thumbnailCanvas = document.createElement('canvas');
+                const ctx = thumbnailCanvas.getContext('2d');
+
+                videoElement.src = video.url;
+                videoElement.addEventListener('loadeddata', () => {
+                    videoElement.currentTime = 1; 
+                });
+
+                videoElement.addEventListener('seeked', () => {
+                    ctx.drawImage(videoElement, 0, 0, thumbnailCanvas.width, thumbnailCanvas.height);
+                    const thumbnail = thumbnailCanvas.toDataURL('image/jpeg');
+                    videoElement.setAttribute('poster', thumbnail); 
+                });
+
                 videoWrapper.appendChild(videoElement);
                 videoWrapper.appendChild(titleElement);
                 videoContainer.appendChild(videoWrapper);
 
-                // Observer ayarları
                 const observer = new IntersectionObserver(entries => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
