@@ -1,5 +1,5 @@
 let currentPage = 0;
-const videosPerPage = 8;
+const videosPerPage = 5;
 const loadingElement = document.getElementById('loading');
 
 function loadVideos() {
